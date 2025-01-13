@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Moog DFAM Nachbildung</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="synth-container">
+        <!-- Modulation Sektion -->
+        <div class="module" id="modulationModule">
+            <h2>Modulation</h2>
+            <div class="control-group">
+                <label for="modAmount">VCO 2 Mod Amount</label>
+                <div class="slider-wrapper">
+                    <button class="step-button" id="modAmountDecrease">-</button>
+                    <input type="range" id="modAmount" min="0" max="1000" step="1" value="0">
+                    <button class="step-button" id="modAmountIncrease">+</button>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="modSource">VCO 1 Mod Source</label>
+                <select id="modSource">
+                    <option value="vco2">VCO 2</option>
+                    <option value="env">Envelope</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label for="modDestination">VCO 1 Mod Destination</label>
+                <select id="modDestination">
+                    <option value="pitch">Pitch</option>
+                    <option value="wave">Waveform</option>
+                    <option value="filter">Filter Cutoff</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label for="syncToggle">Sync VCO2 zu VCO1</label>
+                <input type="checkbox" id="syncToggle">
+            </div>
+        </div>
+
+        <!-- Oszillator 1 Sektion -->
+        <div class="module" id="oscillator1Module">
+            <h2>Oszillator 1</h2>
+            <div class="control-group">
+                <label for="osc1Freq">Frequenz</label>
+                <div class="slider-wrapper">
+                    <button class="step-button" id="osc1FreqDecrease">-</button>
+                    <input type="range" id="osc1Freq" min="0" max="100" step="0.1" value="50">
+                    <button class="step-button" id="osc1FreqIncrease">+</button>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="osc1Wave">Wellenform</label>
+                <select id="osc1Wave">
+                    <option value="square">Rechteck</option>
+                    <option value="triangle">Dreieck</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Oszillator 2 Sektion -->
+        <div class="module" id="oscillator2Module">
+            <h2>Oszillator 2</h2>
+            <div class="control-group">
+                <label for="osc2Freq">Frequenz</label>
+                <div class="slider-wrapper">
+                    <button class="step-button" id="osc2FreqDecrease">-</button>
+                    <input type="range" id="osc2Freq" min="0" max="100" step="0.1" value="50">
+                    <button class="step-button" id="osc2FreqIncrease">+</button>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="osc2Wave">Wellenform</label>
+                <select id="osc2Wave">
+                    <option value="square">Rechteck</option>
+                    <option value="triangle">Dreieck</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Filter Sektion -->
+        <div class="module" id="filterModule">
+            <h2>Filter</h2>
+            <div class="control-group">
+                <label for="filterType">Filtertyp</label>
+                <select id="filterType">
+                    <option value="lowpass" selected>Tiefpass</option>
+                    <option value="highpass">Hochpass</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label for="filterCutoff">Cutoff-Frequenz</label>
+                <div class="slider-wrapper">
+                    <button class="step-button" id="filterCutoffDecrease">-</button>
+                    <input type="range" id="filterCutoff" min="20" max="20000" step="10" value="1000">
+                    <button class="step-button" id="filterCutoffIncrease">+</button>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="filterResonance">Resonanz</label>
+                <div class="slider-wrapper">
+                    <button class="step-button" id="filterResonanceDecrease">-</button>
+                    <input type="range" id="filterResonance" min="0.1" max="10" step="0.1" value="1">
+                    <button class="step-button" id="filterResonanceIncrease">+</button>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="filterEnvAmount">EG Amount</label>
+                <div class="slider-wrapper">
+                    <button class="step-button" id="filterEnvAmountDecrease">-</button>
+                    <input type="range" id="filterEnvAmount" min="-1" max="1" step="0.01" value="0.5">
+                    <button class="step-button" id="filterEnvAmountIncrease">+</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Envelope Sektion -->
+        <div class="module" id="envelopeModule">
+            <h2>Envelope</h2>
+            <div class="control-group">
+                <label for="envAttack">Attack</label>
+                <div class="slider-wrapper">
+                    <button class="step-button" id="envAttackDecrease">-</button>
+                    <input type="range" id="envAttack" min="0.001" max="1" step="0.001" value="0.01">
+                    <button class="step-button" id="envAttackIncrease">+</button>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="envDecay">Decay</label>
+                <div class="slider-wrapper">
+                    <button class="step-button" id="envDecayDecrease">-</button>
+                    <input type="range" id="envDecay" min="0.001" max="1" step="0.001" value="0.2">
+                    <button class="step-button" id="envDecayIncrease">+</button>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="envSustain">Sustain</label>
+                <div class="slider-wrapper">
+                    <button class="step-button" id="envSustainDecrease">-</button>
+                    <input type="range" id="envSustain" min="0" max="1" step="0.01" value="0.7">
+                    <button class="step-button" id="envSustainIncrease">+</button>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="envRelease">Release</label>
+                <div class="slider-wrapper">
+                    <button class="step-button" id="envReleaseDecrease">-</button>
+                    <input type="range" id="envRelease" min="0.001" max="2" step="0.001" value="0.5">
+                    <button class="step-button" id="envReleaseIncrease">+</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mixer Sektion -->
+        <div class="module" id="mixerModule">
+            <h2>Mixer</h2>
+            <div class="control-group">
+                <label for="mixOsc1">VCO 1 Level</label>
+                <div class="slider-wrapper">
+                    <button class="step-button" id="mixOsc1Decrease">-</button>
+                    <input type="range" id="mixOsc1" min="0" max="1" step="0.01" value="0.5">
+                    <button class="step-button" id="mixOsc1Increase">+</button>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="mixOsc2">VCO 2 Level</label>
+                <div class="slider-wrapper">
+                    <button class="step-button" id="mixOsc2Decrease">-</button>
+                    <input type="range" id="mixOsc2" min="0" max="1" step="0.01" value="0.5">
+                    <button class="step-button" id="mixOsc2Increase">+</button>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="mixNoise">Noise Level</label>
+                <div class="slider-wrapper">
+                    <button class="step-button" id="mixNoiseDecrease">-</button>
+                    <input type="range" id="mixNoise" min="0" max="1" step="0.01" value="0.2">
+                    <button class="step-button" id="mixNoiseIncrease">+</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- VCA Sektion -->
+        <div class="module" id="vcaModule">
+            <h2>VCA</h2>
+            <div class="control-group">
+                <label for="masterVolume">Master Volume</label>
+                <div class="slider-wrapper">
+                    <button class="step-button" id="masterVolumeDecrease">-</button>
+                    <input type="range" id="masterVolume" min="0" max="1" step="0.01" value="0.8">
+                    <button class="step-button" id="masterVolumeIncrease">+</button>
+                </div>
+            </div>
+            <div class="control-group effect-toggle">
+                <label for="reverbToggleVCA">Echo</label>
+                <input type="checkbox" id="reverbToggleVCA">
+                <div class="indicator" id="reverbIndicatorVCA"></div>
+            </div>
+            <div class="control-group effect-toggle">
+                <label for="delayToggleVCA">Delay</label>
+                <input type="checkbox" id="delayToggleVCA">
+                <div class="indicator" id="delayIndicatorVCA"></div>
+            </div>
+            <div class="control-group effect-toggle">
+                <label for="distortionToggleVCA">Distortion</label>
+                <input type="checkbox" id="distortionToggleVCA">
+                <div class="indicator" id="distortionIndicatorVCA"></div>
+            </div>
+            <div class="control-group effect-toggle">
+                <label for="stereoWidenerToggleVCA">Stereo Widener</label>
+                <input type="checkbox" id="stereoWidenerToggleVCA">
+                <div class="indicator" id="stereoWidenerIndicatorVCA"></div>
+            </div>
+        </div>
+
+        <!-- Oszilloskop Modul -->
+        <div class="module" id="oscilloscopeModule">
+            <h2>Oszilloskop</h2>
+            <canvas id="oscilloscope"></canvas>
+            <div class="controls" id="controlsModule">
+                <button id="startButton">Start</button>
+                <button id="stopButton">Stopp</button>
+                <div class="control-group">
+                    <label for="tempo">Tempo (BPM)</label>
+                    <input type="number" id="tempo" value="120" min="30" max="300">
+                </div>
+                <button id="settingsButton">Settings</button>
+                <button id="shareButton">Share</button>
+            </div>
+        </div>
+
+        <!-- Sequencer Sektion -->
+        <div class="module sequencer-module" id="sequencerModule">
+            <h2>Sequencer</h2>
+            <div class="sequencer-controls">
+                <button id="randomizePitchButton">Randomize Pitch</button>
+                <button id="randomizeVelocityButton">Randomize Velocity</button>
+            </div>
+            <div class="sequencer-grid" id="sequencerSteps">
+                <!-- Schritte werden dynamisch erstellt -->
+            </div>
+        </div>
+
+        <!-- Reverb Effekt Modul -->
+        <div class="module" id="reverbModule">
+            <h2>Reverb</h2>
+            <div class="control-group">
+                <label for="reverbTime">Reverb Time</label>
+                <div class="slider-wrapper">
+                    <button class="step-button" id="reverbTimeDecrease">-</button>
+                    <input type="range" id="reverbTime" min="0.1" max="2.0" step="0.01" value="0.5">
+                    <button class="step-button" id="reverbTimeIncrease">+</button>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="reverbFeedback">Reverb Feedback</label>
+                <div class="slider-wrapper">
+                    <button class="step-button" id="reverbFeedbackDecrease">-</button>
+                    <input type="range" id="reverbFeedback" min="0" max="0.9" step="0.01" value="0.4">
+                    <button class="step-button" id="reverbFeedbackIncrease">+</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Delay Effekt Modul -->
+        <div class="module" id="delayModule">
+            <h2>Delay</h2>
+            <div class="control-group">
+                <label for="delayTime">Delay Time</label>
+                <div class="slider-wrapper">
+                    <button class="step-button" id="delayTimeDecrease">-</button>
+                    <input type="range" id="delayTime" min="0.1" max="1.5" step="0.01" value="0.3">
+                    <button class="step-button" id="delayTimeIncrease">+</button>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="delayFeedback">Feedback</label>
+                <div class="slider-wrapper">
+                    <button class="step-button" id="delayFeedbackDecrease">-</button>
+                    <input type="range" id="delayFeedback" min="0" max="0.9" step="0.01" value="0.4">
+                    <button class="step-button" id="delayFeedbackIncrease">+</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Distortion Effekt Modul -->
+        <div class="module" id="distortionModule">
+            <h2>Distortion</h2>
+            <div class="control-group">
+                <label for="distortionAmount">Amount</label>
+                <div class="slider-wrapper">
+                    <button class="step-button" id="distortionAmountDecrease">-</button>
+                    <input type="range" id="distortionAmount" min="0" max="1000" step="1" value="600">
+                    <button class="step-button" id="distortionAmountIncrease">+</button>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="distortionOversample">Oversample</label>
+                <select id="distortionOversample">
+                    <option value="none">None</option>
+                    <option value="2x">2x</option>
+                    <option value="4x">4x</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Stereo Widener Effekt Modul -->
+        <div class="module" id="stereoWidenerModule">
+            <h2>Stereo Widener</h2>
+            <div class="control-group">
+                <label for="stereoWidth">Width</label>
+                <div class="slider-wrapper">
+                    <button class="step-button" id="stereoWidthDecrease">-</button>
+                    <input type="range" id="stereoWidth" min="0" max="2" step="0.01" value="1">
+                    <button class="step-button" id="stereoWidthIncrease">+</button>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="stereoPhase">Phase Offset</label>
+                <div class="slider-wrapper">
+                    <button class="step-button" id="stereoPhaseDecrease">-</button>
+                    <input type="range" id="stereoPhase" min="0" max="180" step="1" value="90">
+                    <button class="step-button" id="stereoPhaseIncrease">+</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Overlay -->
+    <div id="settingsOverlay">
+        <div id="settingsContent">
+            <span id="closeSettings">&times;</span>
+            <h2>Einstellungen speichern/laden</h2>
+            <div class="control-group">
+                <label for="saveName">Speichern unter:</label>
+                <input type="text" id="saveName" placeholder="Preset Name">
+                <button id="saveButton">Speichern</button>
+            </div>
+            <div class="control-group">
+                <label for="loadSelect">Einstellungen laden:</label>
+                <select id="loadSelect">
+                    <!-- Optionen werden dynamisch hinzugefügt -->
+                </select>
+                <button id="loadButton">Laden</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="synth.js"></script>
+</body>
+</html>

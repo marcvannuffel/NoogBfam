@@ -1,0 +1,439 @@
+/* Allgemeine Einstellungen */
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #000;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    overflow-x: hidden;
+}
+
+h2 {
+    font-weight: normal;
+    margin-bottom: 10px;
+    margin-top: 0;
+    font-size: 0.9em; /* Schmalere Titel */
+    text-align: center;
+}
+
+h3 {
+    font-weight: normal;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    font-size: 0.85em;
+    text-align: center;
+}
+
+/* Synth-Container */
+.synth-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-areas:
+        "modulation oscillator1 oscillator2 filter"
+        "envelope mixer vca oscilloscope"
+        "sequencer sequencer sequencer sequencer"
+        "echo delay distortion stereoWidener";
+    gap: 10px;
+    padding: 20px;
+    box-sizing: border-box;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+/* Module */
+.module {
+    background-color: #111;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 10px;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%; /* Maximale Breite innerhalb des Grid-Spalten */
+}
+
+/* Slider-Wrapper */
+.slider-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Step-Buttons */
+.step-button {
+    background-color: #222;
+    border: 1px solid #555;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    min-height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    color: #fff;
+    padding: 0;
+}
+
+.step-button:hover {
+    background-color: #333;
+}
+
+/* Assign grid areas */
+#modulationModule {
+    grid-area: modulation;
+}
+
+#oscillator1Module {
+    grid-area: oscillator1;
+}
+
+#oscillator2Module {
+    grid-area: oscillator2;
+}
+
+#filterModule {
+    grid-area: filter;
+}
+
+#envelopeModule {
+    grid-area: envelope;
+}
+
+#mixerModule {
+    grid-area: mixer;
+}
+
+#vcaModule {
+    grid-area: vca;
+}
+
+#oscilloscopeModule {
+    grid-area: oscilloscope;
+}
+
+#sequencerModule {
+    grid-area: sequencer;
+}
+
+#echoModule {
+    grid-area: echo;
+}
+
+#delayModule {
+    grid-area: delay;
+}
+
+#distortionModule {
+    grid-area: distortion;
+}
+
+#stereoWidenerModule {
+    grid-area: stereoWidener;
+}
+
+/* Kontrollgruppen */
+.control-group {
+    margin-bottom: 15px;
+}
+
+.control-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 0.8em; /* Kleinere Schriftgröße */
+}
+
+.control-group input[type="range"],
+.control-group select,
+.control-group input[type="number"],
+.control-group input[type="text"] {
+    width: 100%;
+}
+
+.control-group input[type="number"],
+.control-group input[type="text"] {
+    background-color: #222;
+    color: #fff;
+    border: 1px solid #444;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+/* Schieberegler */
+input[type="range"] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 10px;
+    background: #444;
+    border-radius: 5px;
+    outline: none;
+    margin: 0 10px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #888;
+    cursor: pointer;
+    border-radius: 50%;
+    border: 1px solid #555;
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: #888;
+    cursor: pointer;
+    border-radius: 50%;
+    border: 1px solid #555;
+}
+
+/* Buttons */
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.controls button,
+.controls .control-group {
+    margin: 5px;
+}
+
+.controls .control-group {
+    width: auto;
+}
+
+.controls .control-group label {
+    margin-bottom: 0;
+    margin-right: 5px;
+    display: inline-block;
+}
+
+.controls .control-group input[type="number"] {
+    width: 60px;
+    display: inline-block;
+}
+
+.controls button {
+    background-color: #222;
+    border: 1px solid #555;
+    color: #fff;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 0.9em;
+    border-radius: 5px;
+}
+
+.controls button:hover {
+    background-color: #333;
+}
+
+/* Dropdown-Menüs */
+select {
+    background-color: #222;
+    color: #fff;
+    border: 1px solid #444;
+    padding: 5px;
+    border-radius: 5px;
+    width: 100%;
+}
+
+select option {
+    background-color: #222;
+    color: #fff;
+}
+
+/* Effekt-Toggles im VCA */
+.effect-toggle {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.effect-toggle label {
+    flex: 1;
+}
+
+.effect-toggle input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.indicator {
+    width: 10px;
+    height: 10px;
+    background-color: #400;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+/* Sequencer Controls */
+.sequencer-controls {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.sequencer-controls button {
+    background-color: #222;
+    border: 1px solid #555;
+    color: #fff;
+    padding: 5px 10px;
+    margin: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    border-radius: 5px;
+}
+
+.sequencer-controls button:hover {
+    background-color: #333;
+}
+
+/* Sequencer */
+.sequencer-module {
+    grid-column: 1 / -1; /* Span all columns */
+}
+
+.sequencer-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.sequencer-step {
+    flex: 1 1 calc(12.5% - 10px); /* 8 Schritte, also 100% / 8 = 12.5%, minus Margins */
+    margin: 5px;
+    background-color: #1a1a1a;
+    padding: 5px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.sequencer-step label {
+    font-size: 0.8em;
+    margin-top: 5px;
+}
+
+.sequencer-step input[type="range"] {
+    margin: 5px 0;
+}
+
+/* Sequencer LED */
+.sequencer-led {
+    width: 10px;
+    height: 10px;
+    background-color: #400;
+    border-radius: 50%;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    transition: background-color 0.1s ease;
+}
+
+/* Oszilloskop Module */
+#oscilloscopeModule {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#oscilloscopeModule canvas {
+    width: 100%;
+    height: 150px;
+    background-color: #000;
+    border: 1px solid #333;
+    border-radius: 5px;
+}
+
+/* Effektmodule */
+.effect-module {
+    margin-bottom: 20px;
+}
+
+.effect-module h3 {
+    margin-top: 0;
+    text-align: center;
+}
+
+.indicator {
+    width: 10px;
+    height: 10px;
+    background-color: #400;
+    border-radius: 50%;
+    display: inline-block;
+    margin-left: 10px;
+    vertical-align: middle;
+}
+
+/* Settings Overlay */
+#settingsOverlay {
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+}
+
+#settingsContent {
+    background-color: #111;
+    margin: 5% auto;
+    padding: 20px;
+    width: 80%;
+    max-width: 500px;
+    border: 1px solid #333;
+    border-radius: 8px;
+    position: relative;
+}
+
+#closeSettings {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    color: #fff;
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#settingsContent h2 {
+    text-align: center;
+}
+
+#settingsContent .control-group {
+    margin-bottom: 20px;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .synth-container {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        grid-template-areas:
+            "modulation"
+            "oscillator1"
+            "oscillator2"
+            "filter"
+            "envelope"
+            "mixer"
+            "vca"
+            "oscilloscope"
+            "sequencer"
+            "echo"
+            "delay"
+            "distortion"
+            "stereoWidener";
+    }
+
+    .sequencer-step {
+        flex: 1 1 100%;
+    }
+}
