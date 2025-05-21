@@ -20,8 +20,9 @@ jobs:
         uses: actions/configure-pages@v3
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-artifact@v3.0.0
         with:
+          name: github-pages
           path: .
 
   deploy:
