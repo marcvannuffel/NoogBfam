@@ -15,7 +15,7 @@ A workflow file located at `.github/workflows/deploy.yml` automatically deploys 
 
 1. Checks out the repository.
 2. Sets up GitHub Pages and uploads the site files as an artifact using the
-   `actions/upload-artifact@v3.0.0` action.
+   `actions/upload-pages-artifact@v1` action.
 3. Deploys the artifact to the `gh-pages` environment using the `actions/deploy-pages` action.
 
 After the workflow completes, your updated site will be live on GitHub Pages.
