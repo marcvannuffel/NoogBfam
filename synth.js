@@ -490,6 +490,14 @@ function addEventListeners() {
         document.getElementById('settingsOverlay').style.display = 'none';
     });
 
+    // Preset speichern und laden
+    document.getElementById('saveButton').addEventListener('click', () => {
+        saveSettings();
+    });
+    document.getElementById('loadButton').addEventListener('click', () => {
+        loadSettings();
+    });
+
     // Share Button
     document.getElementById('shareButton').addEventListener('click', () => {
         shareSettings();
