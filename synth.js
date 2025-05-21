@@ -26,7 +26,7 @@ let mixNoiseGain = audioCtx.createGain();
 
 // VCA Gain Node
 let vcaGain = audioCtx.createGain();
-vcaGain.gain.value = 0.7; // Master Volume auf 1.0 erhöht
+vcaGain.gain.value = 0.7; // Master Volume auf 0.7 gesetzt
 
 // Effekte Toggles
 let reverbToggle = false; // Reverb-Modul
