@@ -409,7 +409,7 @@ function addEventListeners() {
         stereoPhaseOffsetDelay.delayTime.setValueAtTime(width * 0.02, audioCtx.currentTime); // Max 20ms
     });
     document.getElementById('stereoPhase').addEventListener('input', (event) => {
-        // Optional: Weitere Anpassungen für den Phasenoffset können hier vorgenommen werden
+        // Optional: Weitere Anpassungen für den Phasenoffset könnten hier vorgenommen werden
         // Momentan wird der Phasenoffset durch stereoPhaseOffsetDelay.delayTime gesteuert
     });
 
@@ -1055,30 +1055,91 @@ function updateLoadSelect() {
     localStorage.setItem('lastSaveName', saveName);
 }
 
+// Anwendung initialisieren
+window.onload = () => {
+    init();
+    addEventListeners();
+    setupAutoResumeForMobile();
+};
+
+// Variable für die Synchronisations-Interval
+let syncIntervalId = null;
+
+// Auto-Resume für Mobile: startet AudioContext bei erster Nutzerinteraktion
+function setupAutoResumeForMobile() {
+    const attemptResume = () => {
+        if (audioCtx.state !== 'running') {
+            audioCtx.resume().catch(() => {});
+        }
+    };
+    // Nur einmal needed; Event Listener automatisch entfernen
+    const onFirstInteract = () => {
+        attemptResume();
+        document.removeEventListener('touchstart', onFirstInteract);
+        document.removeEventListener('pointerdown', onFirstInteract);
+        document.removeEventListener('mousedown', onFirstInteract);
+    };
+    document.addEventListener('touchstart', onFirstInteract, { passive: true });
+    document.addEventListener('pointerdown', onFirstInteract);
+    document.addEventListener('mousedown', onFirstInteract);
+}
+
+// Passt die Canvas-Auflösung an Containergröße und Device Pixel Ratio an
+function resizeOscilloscopeCanvas() {
+    const canvas = document.getElementById('oscilloscope');
+    if (!canvas) return;
+    const dpr = Math.max(1, window.devicePixelRatio || 1);
+    const cssWidth = canvas.clientWidth;
+    // CSS-Höhe kommt aus Styles; lese tatsächliche CSS-Höhe
+    const cssHeight = parseFloat(getComputedStyle(canvas).height);
+    const targetWidth = Math.floor(cssWidth * dpr);
+    const targetHeight = Math.floor(cssHeight * dpr);
+    if (canvas.width !== targetWidth || canvas.height !== targetHeight) {
+        canvas.width = targetWidth;
+        canvas.height = targetHeight;
+    }
+}
+
 // Oszilloskop zeichnen
 function drawOscilloscope() {
     let canvas = document.getElementById('oscilloscope');
     let canvasCtx = canvas.getContext('2d');
+
+    // Initiale Größenanpassung und Listener für Resize/Rotation
+    resizeOscilloscopeCanvas();
+    window.addEventListener('resize', resizeOscilloscopeCanvas);
+    window.addEventListener('orientationchange', resizeOscilloscopeCanvas);
 
     function draw() {
         requestAnimationFrame(draw);
 
         analyser.getByteTimeDomainData(dataArray);
 
+        // Sicherstellen, dass Canvas-Größe aktuell ist
+        resizeOscilloscopeCanvas();
+
+        // Für Zeichenberechnung CSS-Pixel nutzen
+        const dpr = Math.max(1, window.devicePixelRatio || 1);
+        const cssWidth = canvas.clientWidth;
+        const cssHeight = parseFloat(getComputedStyle(canvas).height);
+
+        canvasCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
         canvasCtx.fillStyle = '#000';
-        canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
+        canvasCtx.clearRect(0, 0, cssWidth, cssHeight);
+        canvasCtx.fillRect(0, 0, cssWidth, cssHeight);
 
         canvasCtx.lineWidth = 2;
         canvasCtx.strokeStyle = '#0f0';
 
         canvasCtx.beginPath();
 
-        let sliceWidth = canvas.width * 1.0 / bufferLength;
+        let sliceWidth = cssWidth * 1.0 / bufferLength;
         let x = 0;
 
         for (let i = 0; i < bufferLength; i++) {
             let v = dataArray[i] / 128.0;
-            let y = v * canvas.height / 2;
+            let y = v * cssHeight / 2;
 
             if (i === 0) {
                 canvasCtx.moveTo(x, y);
@@ -1089,18 +1150,9 @@ function drawOscilloscope() {
             x += sliceWidth;
         }
 
-        canvasCtx.lineTo(canvas.width, canvas.height / 2);
+        canvasCtx.lineTo(cssWidth, cssHeight / 2);
         canvasCtx.stroke();
     }
 
     draw();
 }
-
-// Anwendung initialisieren
-window.onload = () => {
-    init();
-    addEventListeners();
-};
-
-// Variable für die Synchronisations-Interval
-let syncIntervalId = null;

@@ -19,3 +19,9 @@ A workflow file located at `.github/workflows/deploy.yml` automatically deploys 
 3. Deploys the artifact to the `gh-pages` environment using the `actions/deploy-pages` action.
 
 After the workflow completes, your updated site will be live on GitHub Pages.
+
+## Hinweise (Deutsch)
+
+- Mobile Audio: Tippe auf "Start", um Audio auf mobilen Geräten zu aktivieren (Autoplay-Richtlinien). Ab jetzt wird der AudioContext bei der ersten Berührung automatisch aktiviert.
+- Responsives UI: Das Layout passt sich auf kleinen Bildschirmen an, Touch-Ziele sind vergrößert.
+- GitHub Pages: Der enthaltene Workflow unter `.github/workflows/deploy.yml` deployt automatisch bei jedem Push auf `main`.
